@@ -8,14 +8,12 @@ export default async function handler(req, res) {
     }
 
     try {
-        // 自動拼接來自 Raspberry Pi 的 Gemini API 路徑與 Key
-        const targetUrl = `https://generativelanguage.googleapis.com${req.url.replace(/^\/api\/proxy/, '')}`;
+        // 直接拼接完整的請求路徑與 Key
+        const targetUrl = `https://generativelanguage.googleapis.com${req.url}`;
         
         const response = await fetch(targetUrl, {
             method: req.method,
-            headers: {
-                'content-type': 'application/json'
-            },
+            headers: { 'content-type': 'application/json' },
             body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined
         });
 
