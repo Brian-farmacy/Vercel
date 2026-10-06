@@ -1,4 +1,3 @@
-// force deploy
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -9,8 +8,9 @@ export default async function handler(req, res) {
     }
 
     try {
-        // 直接拼接完整的請求路徑與 Key
-        const targetUrl = `https://generativelanguage.googleapis.com${req.url}`;
+        // 🔑 關鍵修正：把 Vercel 附加的 '/api' 刪除，還原成純淨的 Google 路徑
+        const cleanPath = req.url.replace(/^\/api/, '');
+        const targetUrl = `https://generativelanguage.googleapis.com${cleanPath}`;
         
         const response = await fetch(targetUrl, {
             method: req.method,
